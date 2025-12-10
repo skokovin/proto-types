@@ -46,3 +46,11 @@ message NodeHealth {
   uint64 disk_ledger_free = 6;
   float cpu_load = 7;       // Загрузка CPU в %
 }
+
+message TransactionInfo {
+  bytes signature = 1;                // Подпись транзакции (32 байта)
+  bool is_vote = 2;                   // Флаг голосования
+  uint64 fee = 3;                     // Комиссия (Lamports)
+  bool err = 4;                       // Была ли ошибка (true/false)
+  uint64 compute_units_consumed = 5;  // <--- НОВОЕ ПОЛЕ (сколько ресурсов сожгли)
+}
