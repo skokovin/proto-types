@@ -22,7 +22,7 @@ message BatchUpdate {
 }
 
 message BatchTransaction {
-  repeated TransactionInfo updates = 1;
+  repeated TransactionInfo transactions = 1;
   uint64 wall_time = 2; // Время отправки пакета (unix timestamp)
 }
 
