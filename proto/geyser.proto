@@ -6,7 +6,11 @@ package geyser;
 service GeyserStats {
   // Метод для отправки пачки обновлений
   rpc SendUpdates (BatchUpdate) returns (Empty);
+
+  rpc SendHealth (NodeHealth) returns (Empty);
 }
+
+
 
 // Пустой ответ, чтобы не гонять лишний трафик обратно
 message Empty {}
@@ -31,4 +35,14 @@ message AccountUpdate {
   // Они могут быть огромными. Если нужны конкретные метрики (например, цена токена),
   // лучше распарсить их в Rust-плагине и передать сюда отдельными полями.
   bytes data = 7;
+}
+
+message NodeHealth {
+  uint64 wall_time = 1;
+  float cpu_temp = 2;       // Температура (средняя или макс)
+  uint64 memory_total = 3;
+  uint64 memory_used = 4;
+  uint64 disk_ledger_total = 5; // Диск, где лежит леджер
+  uint64 disk_ledger_free = 6;
+  float cpu_load = 7;       // Загрузка CPU в %
 }
