@@ -21,6 +21,11 @@ message BatchUpdate {
   uint64 wall_time = 2; // Время отправки пакета (unix timestamp)
 }
 
+message BatchTransaction {
+  repeated TransactionInfo updates = 1;
+  uint64 wall_time = 2; // Время отправки пакета (unix timestamp)
+}
+
 // Единица данных об обновлении аккаунта
 message AccountUpdate {
   bytes pubkey = 1;      // Адрес аккаунта (32 байта)
