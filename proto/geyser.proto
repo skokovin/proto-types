@@ -10,6 +10,11 @@ service GeyserStats {
   rpc SendHealth (NodeHealth) returns (Empty);
 
   rpc SendTransactions (BatchTransaction) returns (Empty);
+
+  rpc SubscribeTransactions (Empty) returns (stream TransactionInfo);
+
+
+
 }
 
 
