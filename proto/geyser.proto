@@ -13,8 +13,6 @@ service GeyserStats {
 
   rpc SubscribeTransactions (Empty) returns (stream TransactionInfo);
 
-
-
 }
 
 
@@ -65,4 +63,7 @@ message TransactionInfo {
   uint64 fee = 3;                     // Комиссия (Lamports)
   bool err = 4;                       // Была ли ошибка (true/false)
   uint64 compute_units_consumed = 5;  // <--- НОВОЕ ПОЛЕ (сколько ресурсов сожгли)
+  // Добавь это для аналитики DEX:
+  repeated bytes account_keys = 6;    // Все адреса, затронутые транзакцией
+  repeated string log_messages = 7;   // Логи выполнения
 }
