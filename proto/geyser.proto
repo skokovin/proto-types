@@ -66,4 +66,5 @@ message TransactionInfo {
   // Добавь это для аналитики DEX:
   repeated bytes account_keys = 6;    // Все адреса, затронутые транзакцией
   repeated string log_messages = 7;   // Логи выполнения
+  string category = 8;
 }
