@@ -1,0 +1,68 @@
+syntax = "proto3";
+package radar;
+
+service RadarApi {
+  rpc GetDashboardStats (Empty) returns (DashboardStatsResponse);
+  rpc GetRecentTrades (TradeRequest) returns (TradeListResponse);
+  rpc GetTpsHistory (TimeRangeRequest) returns (TpsHistoryResponse);
+  rpc GetPlatformStats (TimeRangeRequest) returns (PlatformStatsResponse);
+}
+message Empty {}
+
+message DashboardStatsResponse {
+  uint32 current_tps = 1;
+  uint64 total_volume_24h = 2;
+  uint64 active_wallets_24h = 3;
+  ServerStatus status = 4;
+}
+
+message ServerStatus {
+  bool is_healthy = 1;
+  string db_latency = 2; 
+}
+
+message TradeRequest {
+  uint32 limit = 1;
+  string platform = 2;
+}
+
+message TradeListResponse {
+  repeated DefiTrade trades = 1;
+}
+
+message DefiTrade {
+  string signature = 1;
+  uint64 slot = 2;
+  uint64 block_time = 3;
+  string platform = 4;
+  string token_in = 5;
+  string token_out = 6;
+  double amount_in = 7;
+  double amount_out = 8;
+  string signer = 9;
+  bool is_bot = 10;
+}
+
+message TimeRangeRequest {
+  uint64 from_ts = 1;
+  uint64 to_ts = 2;
+}
+
+message TpsHistoryResponse {
+  repeated TpsPoint points = 1;
+}
+
+message TpsPoint {
+  uint64 timestamp = 1;
+  uint32 tps = 2;
+}
+
+message PlatformStatsResponse {
+  repeated PlatformStat stats = 1;
+}
+
+message PlatformStat {
+  string name = 1;
+  uint64 tx_count = 2;
+  double percentage = 3;
+}

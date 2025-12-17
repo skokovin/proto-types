@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package geyser;
+
+service GeyserStats {
+
+  rpc SendUpdates (BatchUpdate) returns (Empty);
+
+  rpc SendHealth (NodeHealth) returns (Empty);
+
+  rpc SendTransactions (BatchTransaction) returns (Empty);
+
+  rpc SubscribeTransactions (Empty) returns (stream TransactionInfo);
+
+}
+
+
+
+message Empty {}
+
+
+message BatchUpdate {
+  repeated AccountUpdate updates = 1;
+  uint64 wall_time = 2; // Время отправки пакета (unix timestamp)
+}
+
+message BatchTransaction {
+  repeated TransactionInfo transactions = 1;
+  uint64 wall_time = 2; // Время отправки пакета (unix timestamp)
+}
+
+message AccountUpdate {
+  bytes pubkey = 1;      // Адрес аккаунта (32 байта)
+  uint64 lamports = 2;   // Баланс
+  bytes owner = 3;       // Программа-владелец
+  uint64 slot = 4;       // Слот, в котором произошло изменение
+  bool is_startup = 5;   // True, если это начальная загрузка (snapshot), а не живой поток
+  uint64 write_version = 6; // Версия записи (помогает сортировать события внутри слота)
+
+  // Данные аккаунта.
+  // ВНИМАНИЕ: Если ты хочешь копить статистику, возможно, тебе не нужны ВСЕ данные (data).
+  // Они могут быть огромными. Если нужны конкретные метрики (например, цена токена),
+  // лучше распарсить их в Rust-плагине и передать сюда отдельными полями.
+  bytes data = 7;
+}
+
+message NodeHealth {
+  uint64 wall_time = 1;
+  float cpu_temp = 2;
+  uint64 memory_total = 3;
+  uint64 memory_used = 4;
+  uint64 disk_ledger_total = 5;
+  uint64 disk_ledger_free = 6;
+  float cpu_load = 7;       /
+}
+
+message TransactionInfo {
+  bytes signature = 1;
+  bool is_vote = 2;
+  uint64 fee = 3;
+  bool err = 4;
+  uint64 compute_units_consumed = 5;
+
+  repeated bytes account_keys = 6;
+  repeated string log_messages = 7;
+  string category = 8;
+  repeated TokenBalance pre_balances = 9;
+  repeated TokenBalance post_balances = 10;
+}
+message TokenBalance {
+  uint32 account_index = 1;
+  string mint = 2;
+  double ui_token_amount = 3;
+  string owner = 4;
+}
