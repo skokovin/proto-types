@@ -4,9 +4,9 @@ use std::io::Result;
 fn main() -> Result<()> {
 
     println!("cargo:rerun-if-changed=proto");
-    tonic_prost_build::compile_protos("proto/geyser.proto");
-    tonic_prost_build::compile_protos("proto/radar.proto");
 
+    tonic_prost_build::compile_protos("proto/radar.proto");
+    tonic_prost_build::compile_protos("proto/geyser.proto");
     Ok(())
 }
 
