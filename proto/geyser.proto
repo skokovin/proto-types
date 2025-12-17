@@ -51,7 +51,7 @@ message NodeHealth {
   uint64 memory_used = 4;
   uint64 disk_ledger_total = 5;
   uint64 disk_ledger_free = 6;
-  float cpu_load = 7;       /
+  float cpu_load = 7;
 }
 
 message TransactionInfo {
